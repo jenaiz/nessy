@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
- * Created by jesus.navarrete on 14/02/14.
+ * @author jesus.navarrete (14/02/14)
  */
 public abstract class AbstractKernelHandler extends AbstractHandler {
 

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by jesus.navarrete on 14/02/14.
+ * @author jesus.navarrete (14/02/14)
  */
 @Service(mapping = "/root")
 public class RootHandler extends AbstractKernelHandler {

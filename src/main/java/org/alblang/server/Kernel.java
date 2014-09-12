@@ -35,7 +35,7 @@ public class Kernel {
         try {
             final Handler[] h = loadHandlers(path);
 
-            final Server server = new Server(9090);
+            final Server server = new Server(Integer.valueOf(appProperties.getValue("port")));
 
             final ContextHandlerCollection chc = new ContextHandlerCollection();
             chc.setHandlers(h);

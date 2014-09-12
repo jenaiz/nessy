@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * Created by jesus.navarrete on 14/02/14.
+ * @author jesus.navarrete (14/02/14)
  */
 @Service(mapping = "/status")
 public class StatusHandler extends AbstractKernelHandler {
