@@ -1,0 +1,45 @@
+Project setup:
+- log4j
+- debug project, launched from command line
+- setup of the nodes from json
+
+
+___
+Internal (node):
+- define the different
+- start of the node
+- stop of the node
+- give status online
+- define rol from setup
+
+
+___
+Root rol:
+- connect with all the other nodes, check status, update status
+- manage a list of the other nodes
+- status: starting, updating, waiting for chunkers??, working
+- list of operations per node/operations available
+
+
+___
+Chunker rol:
+- connect with the root
+- status: available, idle, working...
+- list of operations?
+- execute operation
+
+
+
+___
+Command line:
+- startup from command line
+- debug after start from command line
+- start more than one node at the same time !!!
+
+___
+Operations:
+- distributed hello world/ping
+- distributed filesystem?
+- distributed jobs?
+- distributed map-reduce?
+
