@@ -54,7 +54,7 @@ public class Kernel {
 
         final Set<Class<?>> services = reflections.getTypesAnnotatedWith(Service.class);
 
-        final List<Handler> handlers = new ArrayList<Handler>();
+        final List<Handler> handlers = new ArrayList<>();
 
         for (Class<?> c : services) {
             Service service = c.getAnnotation(Service.class);
