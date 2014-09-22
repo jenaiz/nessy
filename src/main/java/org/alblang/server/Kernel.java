@@ -6,6 +6,7 @@ import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
 import org.alblang.utils.NodeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -33,32 +34,33 @@ public class Kernel {
     }
 
     public static void main(String[] args) throws ServerException, IOException, URISyntaxException {
+        final Node node;
         if (args != null && args.length > 0) {
             System.out.println("with json setup!!! ");
-            InputStream stream = Kernel.class.getClassLoader().getResourceAsStream(args[0]);
+            final InputStream stream = Kernel.class.getClassLoader().getResourceAsStream(args[0]);
 
-            System.out.println("-");
-            System.out.println(" " + args[0]);
             final Scanner s = new Scanner(stream).useDelimiter("\\A");
             String text = s.hasNext() ? s.next() : "";
 
-            Node node = NodeUtils.toJava(text);
+            node = NodeUtils.toJava(text);
 
             System.out.println(text);
         } else {
             //nodeSetup = "src/root.json";
+            node = new Node("127.0.0.1", 9090);
         }
 
         final Kernel k = new Kernel();
-        k.start("");
+        k.start("", node);
 
     }
 
-    public void start(final String path) throws ServerException {
+    public void start(final String path, final Node node) throws ServerException {
         try {
             final Handler[] h = loadHandlers(path);
 
-            final Server server = new Server(Integer.valueOf(appProperties.getValue("port")));
+            int port = node.getPort() != 0 ? node.getPort() : Integer.valueOf(appProperties.getValue("port"));
+            final Server server = new Server(port);
 
             final ContextHandlerCollection chc = new ContextHandlerCollection();
             chc.setHandlers(h);
@@ -66,12 +68,11 @@ public class Kernel {
             server.setHandler(chc);
 
             server.start();
-            server.join();
 
-            String rol = appProperties.getValue("rol");
+            final String rol = StringUtils.isNotEmpty(node.getRol()) ?node.getRol() : appProperties.getValue("rol");
 
             if ("chunker".equals(rol)) {
-                String root = appProperties.getValue("node.root");
+                final String root = appProperties.getValue("node.root");
                 String[] props = root.split(":");
                 int retries = 3;
 
@@ -84,6 +85,8 @@ public class Kernel {
                     }
                 }
             }
+            server.join();
+
         } catch (Exception e) {
             throw new ServerException("Error instantiating the server", e);
         }
