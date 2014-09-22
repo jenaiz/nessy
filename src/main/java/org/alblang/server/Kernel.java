@@ -5,7 +5,7 @@ import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.alblang.utils.NodeUtils;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -32,23 +33,21 @@ public class Kernel {
     }
 
     public static void main(String[] args) throws ServerException, IOException, URISyntaxException {
-        String nodeSetup;
         if (args != null && args.length > 0) {
-            nodeSetup = args[0];
             System.out.println("with json setup!!! ");
-            InputStream stream = Kernel.class.getClassLoader().getResourceAsStream("root.json");
+            InputStream stream = Kernel.class.getClassLoader().getResourceAsStream(args[0]);
 
             System.out.println("-");
-            System.out.println(" " + nodeSetup);
-            java.util.Scanner s = new java.util.Scanner(stream).useDelimiter("\\A");
+            System.out.println(" " + args[0]);
+            final Scanner s = new Scanner(stream).useDelimiter("\\A");
             String text = s.hasNext() ? s.next() : "";
+
+            Node node = NodeUtils.toJava(text);
 
             System.out.println(text);
         } else {
-            nodeSetup = "src/root.json";
+            //nodeSetup = "src/root.json";
         }
-
-
 
         final Kernel k = new Kernel();
         k.start("");
@@ -137,7 +136,7 @@ public class Kernel {
         con.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
         final OutputStream os = con.getOutputStream();
-        os.write(javaToJson(node).getBytes("UTF-8"));
+        os.write(NodeUtils.toJson(node).getBytes("UTF-8"));
         os.close();
 
         final int code = con.getResponseCode();
@@ -146,13 +145,4 @@ public class Kernel {
 
     }
 
-    public String javaToJson(final Node node) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final StringWriter sw = new StringWriter();
-        final PrintWriter p = new PrintWriter(sw);
-
-        mapper.writeValue(p, node);
-
-        return sw.toString();
-    }
 }

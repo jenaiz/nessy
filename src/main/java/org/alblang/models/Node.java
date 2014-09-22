@@ -1,12 +1,20 @@
 package org.alblang.models;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * @author jesus.navarrete  (22/09/14)
  */
 public class Node {
 
+    private String rol;
+
+    @JsonProperty("host_name")
     private String hostName;
     private int port;
+
+    public Node() {
+    }
 
     public Node(String hostName, int port) {
         this.hostName = hostName;
@@ -27,6 +35,14 @@ public class Node {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public String getUrl() {

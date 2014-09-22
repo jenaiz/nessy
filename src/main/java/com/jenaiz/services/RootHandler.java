@@ -3,7 +3,7 @@ package com.jenaiz.services;
 import org.alblang.annotations.Service;
 import org.alblang.models.Node;
 import org.alblang.server.Topology;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.alblang.utils.NodeUtils;
 import org.eclipse.jetty.server.Request;
 
 import javax.servlet.ServletException;
@@ -29,7 +29,7 @@ public class RootHandler extends AbstractKernelHandler {
                 sb.append(line).append("\n");
             }
 
-            final Node node = jsonToJava(sb.toString());
+            final Node node = NodeUtils.toJava(sb.toString());
             System.out.println(node.getUrl() + ":" + node.getPort());
 
             // TODO check if the node exist before!
@@ -41,11 +41,6 @@ public class RootHandler extends AbstractKernelHandler {
         baseRequest.setHandled(true);
         response.getWriter().println("r o o t");
 
-    }
-
-    public Node jsonToJava(final String json) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        return  mapper.readValue(json, Node.class);
     }
 
 }

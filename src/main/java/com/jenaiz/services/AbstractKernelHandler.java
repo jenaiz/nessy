@@ -48,6 +48,4 @@ public abstract class AbstractKernelHandler extends AbstractHandler {
     public abstract void h(String s, Request baseRequest, HttpServletRequest httpServletRequest,
                       HttpServletResponse response) throws IOException, ServletException;
 
-
-
 }
