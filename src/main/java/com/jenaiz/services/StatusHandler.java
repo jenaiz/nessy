@@ -3,6 +3,8 @@ package com.jenaiz.services;
 import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
+import org.alblang.models.Node;
+import org.alblang.server.Topology;
 import org.eclipse.jetty.server.Request;
 
 import javax.servlet.ServletException;
@@ -29,9 +31,30 @@ public class StatusHandler extends AbstractKernelHandler {
         } catch (ServerException e) {
             e.printStackTrace();
         }
+
+        String rol = appProperties.getValue("rol");
+
         response.getWriter().println("Server version : " + v);
+        response.getWriter().println("Server Rol : " + rol);
         response.getWriter().println("Status : running");
         response.getWriter().println();
         response.getWriter().println(new Date());
+        Topology topo = Topology.getInstance();
+
+        response.getWriter().println("\nAvailable nodes:");
+
+        printNodeInfo(response, topo);
+    }
+
+    private void printNodeInfo(HttpServletResponse response, Topology topo) throws IOException {
+        for (Node n : topo.availableNodes()) {
+            response.getWriter().println(n.getUrl());
+        }
+
+        response.getWriter().println("\nAll nodes:");
+
+        for (Node n : topo.getNodes()) {
+            response.getWriter().println(n.getUrl());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package org.alblang.server;
 
+import org.alblang.models.Node;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,21 +13,27 @@ import java.util.List;
 public class Topology {
 
     public static final int CHECKING_TIME = 2000;
-    final private List<String> nodes;
-    final private List<String> nodesAvailable;
 
-    public Topology() {
+    final private List<Node> nodes;
+    final private List<Node> nodesAvailable;
+
+    private static Topology instance;
+
+    private Topology() {
         nodes = new ArrayList<>();
         nodesAvailable = new ArrayList<>();
+    }
 
-        nodes.add("http://127.0.0.1:9090");
-        nodes.add("http://127.0.0.1:9092");
-        nodes.add("http://127.0.0.1:9093");
+    public static Topology getInstance() {
+        if (instance == null) {
+            instance = new Topology();
+        }
+        return instance;
     }
 
     public void checkNodes() {
 
-        for (String node: nodes) {
+        for (Node node: nodes) {
             try {
                 getRequest(node, "/status");
                 System.out.println(node + " - available");
@@ -35,12 +43,20 @@ public class Topology {
         }
     }
 
-    public List<String> availableNodes() {
+    public List<Node> availableNodes() {
         return nodesAvailable;
     }
 
-    public void getRequest(final String node, final String serviceUrl) throws Exception {
-        final String url = node + serviceUrl;
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void addNode(final Node node) {
+        nodes.add(node);
+    }
+
+    public void getRequest(final Node node, final String serviceUrl) throws Exception {
+        final String url = node.getUrl() + serviceUrl;
 
         final URL obj = new URL(url.trim());
         final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -55,11 +71,10 @@ public class Topology {
             if (nodesAvailable.contains(node))
                 nodesAvailable.remove(node);
         }
-
     }
 
     public static void main(String[] args) {
-        Topology t = new Topology();
+        Topology t = Topology.getInstance();
         while (true) {
             t.checkNodes();
             System.out.println("next try in 2 sg.");

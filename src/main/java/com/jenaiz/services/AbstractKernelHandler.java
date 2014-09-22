@@ -1,5 +1,8 @@
 package com.jenaiz.services;
 
+import org.alblang.config.ApplicationProperties;
+import org.alblang.exceptions.ServerException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
@@ -7,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.logging.Logger;
 
 /**
@@ -17,6 +22,16 @@ public abstract class AbstractKernelHandler extends AbstractHandler {
     public static final String DEFAULT_TYPE = "application/json;charset=utf-8";
 
     private Logger logger = Logger.getLogger(AbstractKernelHandler.class.getName());
+    protected ApplicationProperties appProperties;
+
+    protected AbstractKernelHandler() {
+        try {
+        appProperties = ApplicationProperties.getInstance();
+        } catch (ServerException se) {
+            logger.info(se.getMessage());
+        }
+    }
+
 
     @Override
     public void handle(String s, Request baseRequest, HttpServletRequest httpRequest,
@@ -37,20 +52,5 @@ public abstract class AbstractKernelHandler extends AbstractHandler {
                       HttpServletResponse response) throws IOException, ServletException;
 
 
-    /*public FakeResponse jsonToJava(final String json) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final FakeResponse fakeResponse = mapper.readValue(json, FakeResponse.class);
 
-        return fakeResponse;
-    }
-
-    public String javaToJson(final FakeResponse fakeResponse) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final StringWriter sw = new StringWriter();
-        final PrintWriter p = new PrintWriter(sw);
-
-        mapper.writeValue(p, fakeResponse);
-
-        return sw.toString();
-    }*/
 }

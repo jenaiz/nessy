@@ -1,3 +1,13 @@
+... not decided yet...
+
+What to build for a simple prototype:
+
+- status: idle, working, error?
+- rol: master, chunker
+
+... not decided yet...
+
+
 Project setup:
 - log4j
 - debug project, launched from command line
