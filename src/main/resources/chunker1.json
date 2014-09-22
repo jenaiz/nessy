@@ -1,0 +1,5 @@
+{
+    "rol": "chunker",
+    "port": "9092",
+    "hostname": "127.0.0.1"
+}

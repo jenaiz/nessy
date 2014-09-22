@@ -4,12 +4,18 @@ import org.alblang.annotations.Component;
 import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
+import org.alblang.models.Node;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.reflections.Reflections;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +31,25 @@ public class Kernel {
         appProperties = ApplicationProperties.getInstance();
     }
 
-    public static void main(String[] args) throws ServerException {
+    public static void main(String[] args) throws ServerException, IOException, URISyntaxException {
+        String nodeSetup;
+        if (args != null && args.length > 0) {
+            nodeSetup = args[0];
+            System.out.println("with json setup!!! ");
+            InputStream stream = Kernel.class.getClassLoader().getResourceAsStream("root.json");
+
+            System.out.println("-");
+            System.out.println(" " + nodeSetup);
+            java.util.Scanner s = new java.util.Scanner(stream).useDelimiter("\\A");
+            String text = s.hasNext() ? s.next() : "";
+
+            System.out.println(text);
+        } else {
+            nodeSetup = "src/root.json";
+        }
+
+
+
         final Kernel k = new Kernel();
         k.start("");
 
@@ -44,6 +68,23 @@ public class Kernel {
 
             server.start();
             server.join();
+
+            String rol = appProperties.getValue("rol");
+
+            if ("chunker".equals(rol)) {
+                String root = appProperties.getValue("node.root");
+                String[] props = root.split(":");
+                int retries = 3;
+
+                while (retries > 0) {
+                    int code = addToRoot(new Node(props[0], new Integer(props[1])));
+                    if (code == HttpURLConnection.HTTP_OK) {
+                        break;
+                    } else {
+                        --retries;
+                    }
+                }
+            }
         } catch (Exception e) {
             throw new ServerException("Error instantiating the server", e);
         }
@@ -83,6 +124,35 @@ public class Kernel {
 
             iocComps.add(component);
         }
+    }
 
+    public int addToRoot(final Node node) throws Exception {
+        final String url = node.getUrl() + "/root";
+
+        final URL obj = new URL(url.trim());
+        final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setInstanceFollowRedirects(false);
+        con.setRequestMethod("POST");
+
+        con.setRequestProperty("Content-Type", "application/json; charset=utf8");
+
+        final OutputStream os = con.getOutputStream();
+        os.write(javaToJson(node).getBytes("UTF-8"));
+        os.close();
+
+        final int code = con.getResponseCode();
+
+        return code;
+
+    }
+
+    public String javaToJson(final Node node) throws IOException {
+        final ObjectMapper mapper = new ObjectMapper();
+        final StringWriter sw = new StringWriter();
+        final PrintWriter p = new PrintWriter(sw);
+
+        mapper.writeValue(p, node);
+
+        return sw.toString();
     }
 }

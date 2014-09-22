@@ -5,15 +5,20 @@ package org.alblang.models;
  */
 public class Node {
 
-    private String name;
+    private String hostName;
     private int port;
 
-    public String getName() {
-        return name;
+    public Node(String hostName, int port) {
+        this.hostName = hostName;
+        this.port = port;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
     public int getPort() {
@@ -27,10 +32,10 @@ public class Node {
     public String getUrl() {
         final StringBuilder sb = new StringBuilder();
 
-        if (!name.startsWith("http")) {
+        if (!hostName.startsWith("http")) {
             sb.append("http://");
         }
-        sb.append(name).append(":").append(port);
+        sb.append(hostName).append(":").append(port);
 
         return sb.toString();
     }

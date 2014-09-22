@@ -4,6 +4,7 @@ What to build for a simple prototype:
 
 - status: idle, working, error?
 - rol: master, chunker
+- persist information of the nodes
 
 ... not decided yet...
 
