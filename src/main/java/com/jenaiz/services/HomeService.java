@@ -11,8 +11,8 @@ import java.io.IOException;
 /**
  * @author jesus.navarrete (14/02/14)
  */
-@Service(mapping = "/hi")
-public class HiService extends AbstractKernelHandler {
+@Service(mapping = "/")
+public class HomeService extends AbstractKernelHandler {
 
     @Override
     public void h(String s, Request baseRequest, HttpServletRequest httpServletRequest,
@@ -20,7 +20,7 @@ public class HiService extends AbstractKernelHandler {
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
 
-        response.getWriter().println("{\"menu\": {  \"id\": \"file\",  \"value\": \"File\",  \"popup\": {    \"menuitem\": [      {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"},      {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"},      {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}    ]  }}}\n");
+        response.getWriter().println("OK");
 
     }
 }
