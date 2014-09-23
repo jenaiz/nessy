@@ -30,7 +30,7 @@ public class RootHandler extends AbstractKernelHandler {
             }
 
             final Node node = NodeUtils.toJava(sb.toString());
-            System.out.println(node.getUrl() + ":" + node.getPort());
+            System.out.println(node.url() + ":" + node.getPort());
 
             // TODO check if the node exist before!
             // TODO validate node connection !

@@ -48,13 +48,13 @@ public class StatusHandler extends AbstractKernelHandler {
 
     private void printNodeInfo(HttpServletResponse response, Topology topo) throws IOException {
         for (Node n : topo.availableNodes()) {
-            response.getWriter().println(n.getUrl());
+            response.getWriter().println(n.url());
         }
 
         response.getWriter().println("\nAll nodes:");
 
         for (Node n : topo.getNodes()) {
-            response.getWriter().println(n.getUrl());
+            response.getWriter().println(n.url());
         }
     }
 }

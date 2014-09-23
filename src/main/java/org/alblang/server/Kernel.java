@@ -130,12 +130,13 @@ public class Kernel {
     }
 
     public int addToRoot(final Node node) throws Exception {
-        final String url = node.getUrl() + "/root";
+        final String url = node.url() + "/root/";
 
         final URL obj = new URL(url.trim());
         final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setInstanceFollowRedirects(false);
         con.setRequestMethod("POST");
+        con.setDoOutput(true);
 
         con.setRequestProperty("Content-Type", "application/json; charset=utf8");
 

@@ -45,7 +45,7 @@ public class Node {
         this.rol = rol;
     }
 
-    public String getUrl() {
+    public String url() {
         final StringBuilder sb = new StringBuilder();
 
         if (!hostName.startsWith("http")) {

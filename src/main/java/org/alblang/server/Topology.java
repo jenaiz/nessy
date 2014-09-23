@@ -56,7 +56,7 @@ public class Topology {
     }
 
     public void getRequest(final Node node, final String serviceUrl) throws Exception {
-        final String url = node.getUrl() + serviceUrl;
+        final String url = node.url() + serviceUrl;
 
         final URL obj = new URL(url.trim());
         final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
