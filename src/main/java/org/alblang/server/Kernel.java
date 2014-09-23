@@ -1,6 +1,5 @@
 package org.alblang.server;
 
-import org.alblang.annotations.Component;
 import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
@@ -13,7 +12,9 @@ import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.reflections.Reflections;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -112,21 +113,6 @@ public class Kernel {
             handlers.add(ctx);
         }
         return handlers.toArray(new Handler[0]);
-    }
-
-    private static void ioc(final String scanPath) {
-        final Reflections reflections = new Reflections(scanPath);
-
-        final Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
-
-        final List iocComps = new ArrayList();
-
-        for (Class<?> c : components) {
-            Component component = (Component) c.getAnnotation(Component.class);
-            System.out.println(c.getName());
-
-            iocComps.add(component);
-        }
     }
 
     public int addToRoot(final Node node) throws Exception {
