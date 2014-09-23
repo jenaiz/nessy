@@ -40,7 +40,7 @@ public class Kernel {
             final InputStream stream = Kernel.class.getClassLoader().getResourceAsStream(args[0]);
 
             final Scanner s = new Scanner(stream).useDelimiter("\\A");
-            String text = s.hasNext() ? s.next() : "";
+            final String text = s.hasNext() ? s.next() : "";
 
             node = NodeUtils.toJava(text);
 
@@ -69,7 +69,7 @@ public class Kernel {
 
             server.start();
 
-            final String rol = StringUtils.isNotEmpty(node.getRol()) ?node.getRol() : appProperties.getValue("rol");
+            final String rol = StringUtils.isNotEmpty(node.getRol()) ? node.getRol() : appProperties.getValue("rol");
 
             if ("chunker".equals(rol)) {
                 final String root = appProperties.getValue("node.root");
@@ -85,6 +85,7 @@ public class Kernel {
                     }
                 }
             }
+
             server.join();
 
         } catch (Exception e) {
