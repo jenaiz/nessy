@@ -73,12 +73,10 @@ public class Kernel {
             final String rol = StringUtils.isNotEmpty(node.getRol()) ? node.getRol() : appProperties.getValue("rol");
 
             if ("chunker".equals(rol)) {
-                final String root = appProperties.getValue("node.root");
-                String[] props = root.split(":");
                 int retries = 3;
 
                 while (retries > 0) {
-                    int code = addToRoot(new Node(props[0], new Integer(props[1])));
+                    int code = addToRoot(node);
                     if (code == HttpURLConnection.HTTP_OK) {
                         break;
                     } else {
@@ -116,7 +114,7 @@ public class Kernel {
     }
 
     public int addToRoot(final Node node) throws Exception {
-        final String url = node.url() + "/root/";
+        final String url = appProperties.getValue("node.root") + "/root/";
 
         final URL obj = new URL(url.trim());
         final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
