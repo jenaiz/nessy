@@ -5,6 +5,7 @@ import org.alblang.models.Node;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,8 +21,8 @@ public class Topology {
     private static Topology instance;
 
     private Topology() {
-        nodes = new ArrayList<>();
-        nodesAvailable = new ArrayList<>();
+        nodes = Collections.synchronizedList(new ArrayList<Node>());
+        nodesAvailable = Collections.synchronizedList(new ArrayList<Node>());;
     }
 
     public static Topology getInstance() {
@@ -35,10 +36,14 @@ public class Topology {
 
         for (Node node: nodes) {
             try {
-                getRequest(node, "/status");
-                System.out.println(node + " - available");
+                getRequest(node, "/status/");
+                System.out.println(node.url() + " - available");
             } catch (Exception e) {
-                System.out.println(node + " - not available");
+                System.out.println(node.url() + " - not available [" + e.getMessage() + "]");
+                if (nodesAvailable.contains(node)) {
+                    nodesAvailable.remove(node);
+                    System.out.println("node not available, removing: " + node.url());
+                }
             }
         }
     }
@@ -52,7 +57,12 @@ public class Topology {
     }
 
     public void addNode(final Node node) {
-        nodes.add(node);
+        synchronized (this) {
+            if (!nodes.contains(node)) {
+                System.out.println("addNode ... " + node.url());
+                nodes.add(node);
+            }
+        }
     }
 
     public void getRequest(final Node node, final String serviceUrl) throws Exception {
@@ -66,10 +76,14 @@ public class Topology {
         final int code = con.getResponseCode();
 
         if (code == HttpURLConnection.HTTP_OK) {
-            nodesAvailable.add(node);
+            System.out.println("adding available node " + node.url());
+            if (!nodesAvailable.contains(node)) nodesAvailable.add(node);
         } else {
-            if (nodesAvailable.contains(node))
+            System.out.println("answer from connection: " + code);
+            if (nodesAvailable.contains(node)) {
                 nodesAvailable.remove(node);
+                System.out.println("node not available, removing: " + node.url());
+            }
         }
     }
 

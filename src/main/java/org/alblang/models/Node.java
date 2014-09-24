@@ -55,4 +55,26 @@ public class Node {
 
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node node = (Node) o;
+
+        if (port != node.port) return false;
+        if (hostName != null ? !hostName.equals(node.hostName) : node.hostName != null) return false;
+        if (rol != null ? !rol.equals(node.rol) : node.rol != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = rol != null ? rol.hashCode() : 0;
+        result = 31 * result + (hostName != null ? hostName.hashCode() : 0);
+        result = 31 * result + port;
+        return result;
+    }
 }

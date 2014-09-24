@@ -37,15 +37,12 @@ public class Kernel {
     public static void main(String[] args) throws ServerException, IOException, URISyntaxException {
         final Node node;
         if (args != null && args.length > 0) {
-            System.out.println("with json setup!!! ");
             final InputStream stream = Kernel.class.getClassLoader().getResourceAsStream(args[0]);
 
             final Scanner s = new Scanner(stream).useDelimiter("\\A");
             final String text = s.hasNext() ? s.next() : "";
 
             node = NodeUtils.toJava(text);
-
-            System.out.println(text);
         } else {
             //nodeSetup = "src/root.json";
             node = new Node("127.0.0.1", 9090);
@@ -83,6 +80,9 @@ public class Kernel {
                         --retries;
                     }
                 }
+            } else if ("root".equals(rol)) {
+                Thread topology = new Thread(new TopologyRunnable());
+                topology.start();
             }
 
             server.join();

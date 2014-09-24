@@ -8,6 +8,5 @@ for i in ./lib/*.jar ; do
 done
 
 CLASSPATH=$CLASSPATH:target/classes/:../../resources
-echo $CLASSPATH
 
 java $JAVA_OPTS_NESSY -classpath $CLASSPATH org.alblang.server.Kernel root.json
