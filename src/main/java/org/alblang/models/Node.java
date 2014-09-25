@@ -21,10 +21,12 @@ public class Node {
         this.port = port;
     }
 
+    @JsonProperty("host_name")
     public String getHostName() {
         return hostName;
     }
 
+    @JsonProperty("host_name")
     public void setHostName(String hostName) {
         this.hostName = hostName;
     }

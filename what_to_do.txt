@@ -3,7 +3,7 @@
 What to build for a simple prototype:
 
 - status: idle, working, error?
-- rol: master, chunker
+X - rol: master, chunker
 - persist information of the nodes
 
 ... not decided yet...
@@ -12,16 +12,16 @@ What to build for a simple prototype:
 Project setup:
 - log4j
 - debug project, launched from command line
-- setup of the nodes from json
+X - setup of the nodes from json
 
 
 ___
 Internal (node):
 - define the different
-- start of the node
+X - start of the node
 - stop of the node
-- give status online
-- define rol from setup
+X - give status online
+X - define rol from setup
 
 
 ___
@@ -34,7 +34,7 @@ Root rol:
 
 ___
 Chunker rol:
-- connect with the root
+X - connect with the root
 - status: available, idle, working...
 - list of operations?
 - execute operation
@@ -43,9 +43,9 @@ Chunker rol:
 
 ___
 Command line:
-- startup from command line
+X - startup from command line
 - debug after start from command line
-- start more than one node at the same time !!!
+X - start more than one node at the same time !!!
 
 ___
 Operations:

@@ -1,4 +1,4 @@
-package org.alblang.server;
+package org.alblang.processes;
 
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
@@ -30,7 +30,7 @@ public class MasterConnectionRunnable implements Runnable {
             try {
                 int code = addToRoot(node);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("The connection with the root is giving problems: " + e.getMessage());
             }
             try {
                 Thread.sleep(TEN_SECONDS);

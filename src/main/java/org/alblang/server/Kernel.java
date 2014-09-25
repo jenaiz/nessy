@@ -4,6 +4,8 @@ import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
+import org.alblang.processes.MasterConnectionRunnable;
+import org.alblang.processes.TopologyRunnable;
 import org.alblang.utils.NodeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.server.Handler;
@@ -28,6 +30,8 @@ import java.util.Set;
  */
 public class Kernel {
 
+    //private final static Logger log = Logger.getLogger(Kernel.class);
+
     private ApplicationProperties appProperties;
 
     public Kernel() throws ServerException {
@@ -41,7 +45,6 @@ public class Kernel {
 
             final Scanner s = new Scanner(stream).useDelimiter("\\A");
             final String text = s.hasNext() ? s.next() : "";
-
             node = NodeUtils.toJava(text);
         } else {
             //nodeSetup = "src/root.json";

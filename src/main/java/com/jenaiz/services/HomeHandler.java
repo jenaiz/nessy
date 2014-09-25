@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author jesus.navarrete (14/02/14)
  */
 @Service(mapping = "/")
-public class HomeService extends AbstractKernelHandler {
+public class HomeHandler extends AbstractKernelHandler {
 
     @Override
     public void h(String s, Request baseRequest, HttpServletRequest httpServletRequest,

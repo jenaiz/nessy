@@ -1,4 +1,4 @@
-package com.jenaiz.services;
+package com.jenaiz.components;
 
 import org.alblang.annotations.Component;
 
