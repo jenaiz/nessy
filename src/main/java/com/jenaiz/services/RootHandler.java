@@ -4,6 +4,7 @@ import org.alblang.annotations.Service;
 import org.alblang.models.Node;
 import org.alblang.server.Topology;
 import org.alblang.utils.NodeUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Request;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,8 @@ import java.io.IOException;
 @Service(mapping = "/root")
 public class RootHandler extends AbstractKernelHandler {
 
+    private Logger logger = Logger.getLogger(RootHandler.class.getName());
+
     @Override
     public void h(String s, Request baseRequest, HttpServletRequest httpServletRequest,
                        HttpServletResponse response) throws IOException, ServletException {
@@ -30,7 +33,7 @@ public class RootHandler extends AbstractKernelHandler {
             }
 
             final Node node = NodeUtils.toJava(sb.toString());
-            System.out.println(node.url() + ":" + node.getPort());
+            logger.info(node.url() + ":" + node.getPort());
 
             // TODO check if the node exist before!
             // TODO validate node connection !

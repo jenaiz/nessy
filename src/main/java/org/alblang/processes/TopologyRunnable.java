@@ -4,6 +4,7 @@ import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
 import org.alblang.server.Topology;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class TopologyRunnable implements Runnable {
 
     private static ApplicationProperties applicationProperties;
 
+    private Logger logger = Logger.getLogger(TopologyRunnable.class.getName());
+
     public TopologyRunnable() throws ServerException {
         applicationProperties = ApplicationProperties.getInstance();
     }
@@ -39,7 +42,7 @@ public class TopologyRunnable implements Runnable {
             try {
                 Thread.sleep(TEN_SECONDS);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("error waiting", e);
             }
         }
     }
@@ -56,7 +59,7 @@ public class TopologyRunnable implements Runnable {
             out.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("error reading the application.properties file", e);
         }
     }
 

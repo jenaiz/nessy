@@ -8,6 +8,7 @@ import org.alblang.processes.MasterConnectionRunnable;
 import org.alblang.processes.TopologyRunnable;
 import org.alblang.utils.NodeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -30,7 +31,7 @@ import java.util.Set;
  */
 public class Kernel {
 
-    //private final static Logger log = Logger.getLogger(Kernel.class);
+    private final static Logger logger = Logger.getLogger(Kernel.class);
 
     private ApplicationProperties appProperties;
 
@@ -107,8 +108,8 @@ public class Kernel {
         for (Class<?> c : services) {
             Service service = c.getAnnotation(Service.class);
 
-            System.out.println(c.getName());
-            System.out.println("mapping=" + service.mapping() + "\n");
+            logger.info(c.getName());
+            logger.info("mapping=" + service.mapping() + "\n");
 
             final ContextHandler ctx = new ContextHandler();
             ctx.setContextPath(service.mapping());

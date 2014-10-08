@@ -2,6 +2,7 @@ package com.jenaiz.services;
 
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
@@ -9,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * @author jesus.navarrete (14/02/14)
@@ -19,6 +19,7 @@ public abstract class AbstractKernelHandler extends AbstractHandler {
     public static final String DEFAULT_TYPE = "application/json;charset=utf-8";
 
     private Logger logger = Logger.getLogger(AbstractKernelHandler.class.getName());
+
     protected ApplicationProperties appProperties;
 
     protected AbstractKernelHandler() {

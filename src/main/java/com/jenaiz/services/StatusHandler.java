@@ -5,6 +5,7 @@ import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
 import org.alblang.server.Topology;
+import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Request;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,8 @@ import java.util.Date;
 @Service(mapping = "/status")
 public class StatusHandler extends AbstractKernelHandler {
 
+    private Logger logger = Logger.getLogger(StatusHandler.class.getName());
+
     @Override
     public void h(String target,Request baseRequest,HttpServletRequest request,HttpServletResponse response)
             throws IOException, ServletException {
@@ -29,7 +32,7 @@ public class StatusHandler extends AbstractKernelHandler {
         try {
             v = ApplicationProperties.getInstance().getValue("server.version");
         } catch (ServerException e) {
-            e.printStackTrace();
+            logger.error("reading version from app properties", e);
         }
 
         String rol = appProperties.getValue("rol");
