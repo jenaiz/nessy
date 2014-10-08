@@ -10,7 +10,7 @@ X - rol: master, chunker
 
 
 Project setup:
-- log4j
+X - log4j
 - debug project, launched from command line
 X - setup of the nodes from json
 
@@ -27,7 +27,7 @@ X - define rol from setup
 ___
 Root rol:
 - connect with all the other nodes, check status, update status
-- manage a list of the other nodes
+X - manage a list of the other nodes
 - status: starting, updating, waiting for chunkers??, working
 - list of operations per node/operations available
 
