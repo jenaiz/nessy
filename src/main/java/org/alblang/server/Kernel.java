@@ -48,7 +48,6 @@ public class Kernel {
             final String text = s.hasNext() ? s.next() : "";
             node = NodeUtils.toJava(text);
         } else {
-            //nodeSetup = "src/root.json";
             node = new Node("127.0.0.1", 9090);
         }
 
@@ -73,7 +72,7 @@ public class Kernel {
 
             final String rol = StringUtils.isNotEmpty(node.getRol()) ? node.getRol() : appProperties.getValue("rol");
 
-            if ("chunker".equals(rol)) {
+            if (Roles.chunker.name().equals(rol)) {
                 int retries = 3;
 
                 while (retries > 0) {
@@ -86,7 +85,7 @@ public class Kernel {
                 }
                 final Thread rootchecker = new Thread(new MasterConnectionRunnable(node));
                 rootchecker.start();
-            } else if ("root".equals(rol)) {
+            } else if (Roles.root.name().equals(rol)) {
                 final Thread topology = new Thread(new TopologyRunnable());
                 topology.start();
             }
