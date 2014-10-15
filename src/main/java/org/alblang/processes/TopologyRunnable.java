@@ -23,7 +23,7 @@ public class TopologyRunnable implements Runnable {
 
     private static ApplicationProperties applicationProperties;
 
-    private Logger logger = Logger.getLogger(TopologyRunnable.class.getName());
+    private Logger logger = Logger.getLogger(TopologyRunnable.class);
 
     public TopologyRunnable() throws ServerException {
         applicationProperties = ApplicationProperties.getInstance();
