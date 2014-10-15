@@ -21,7 +21,7 @@ public class Topology {
 
     private static Topology instance;
 
-    private Logger logger = Logger.getLogger(Topology.class.getName());
+    private Logger logger = Logger.getLogger(Topology.class);
 
     private Topology() {
         nodes = Collections.synchronizedList(new ArrayList<Node>());
@@ -40,7 +40,7 @@ public class Topology {
         for (Node node: nodes) {
             try {
                 getRequest(node, "/status/");
-                System.out.println(node.url() + " - available");
+                logger.info(node.url() + " - available");
             } catch (Exception e) {
                 logger.error(node.url() + " - not available [" + e.getMessage() + "]");
                 if (nodesAvailable.contains(node)) {
@@ -86,18 +86,6 @@ public class Topology {
             if (nodesAvailable.contains(node)) {
                 nodesAvailable.remove(node);
                 logger.warn("node not available, removing: " + node.url());
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        Topology t = Topology.getInstance();
-        while (true) {
-            t.checkNodes();
-            System.out.println("next try in 2 sg.");
-            try {
-                Thread.sleep(CHECKING_TIME);
-            } catch (InterruptedException e) {
             }
         }
     }

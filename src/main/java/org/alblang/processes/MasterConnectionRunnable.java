@@ -4,6 +4,7 @@ import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
 import org.alblang.utils.NodeUtils;
+import org.apache.log4j.Logger;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -13,6 +14,8 @@ import java.net.URL;
  * @author jesus.navarrete  (24/09/14)
  */
 public class MasterConnectionRunnable implements Runnable {
+
+    private final static Logger logger = Logger.getLogger(MasterConnectionRunnable.class);
 
     private final int TEN_SECONDS = 10000;
 
@@ -30,7 +33,7 @@ public class MasterConnectionRunnable implements Runnable {
             try {
                 int code = addToRoot(node);
             } catch (Exception e) {
-                System.out.println("The connection with the root is giving problems: " + e.getMessage());
+                logger.error("The connection with the root is giving problems: " + e.getMessage(), e);
             }
             try {
                 Thread.sleep(TEN_SECONDS);
