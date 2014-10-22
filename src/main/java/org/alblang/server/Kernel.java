@@ -1,6 +1,5 @@
 package org.alblang.server;
 
-import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
@@ -9,11 +8,8 @@ import org.alblang.processes.TopologyRunnable;
 import org.alblang.utils.NodeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.reflections.Reflections;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +17,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * @author jesus.navarrete  (29/08/14)
@@ -52,23 +45,32 @@ public class Kernel {
         }
 
         final Kernel k = new Kernel();
+
         k.start("", node);
+        // k.start("/Users/jenaiz/projects/nessy", node);
 
     }
 
     public void start(final String path, final Node node) throws ServerException {
         try {
-            final Handler[] h = loadHandlers(path);
-
             int port = node.getPort() != 0 ? node.getPort() : Integer.valueOf(appProperties.getValue("port"));
             final Server server = new Server(port);
 
-            final ContextHandlerCollection chc = new ContextHandlerCollection();
-            chc.setHandlers(h);
+            final WebAppContext context = new WebAppContext();
 
-            server.setHandler(chc);
+            //context.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
+            //context.setResourceBase(path);
+            String rootPath = Kernel.class.getClassLoader().getResource(".").toString();
+            context.setDescriptor(rootPath + "../../src/main/webapp/WEB-INF/web.xml");
+            context.setResourceBase(rootPath);
+
+            context.setContextPath("/");
+            context.setParentLoaderPriority(true);
+
+            server.setHandler(context);
 
             server.start();
+
 
             final String rol = StringUtils.isNotEmpty(node.getRol()) ? node.getRol() : appProperties.getValue("rol");
 
@@ -95,27 +97,6 @@ public class Kernel {
         } catch (Exception e) {
             throw new ServerException("Error instantiating the server", e);
         }
-    }
-
-    private static Handler[] loadHandlers(final String scanPath) throws InstantiationException, IllegalAccessException {
-        final Reflections reflections = new Reflections(scanPath);
-
-        final Set<Class<?>> services = reflections.getTypesAnnotatedWith(Service.class);
-
-        final List<Handler> handlers = new ArrayList<>();
-
-        for (Class<?> c : services) {
-            Service service = c.getAnnotation(Service.class);
-
-            logger.info(c.getName());
-            logger.info("mapping=" + service.mapping() + "\n");
-
-            final ContextHandler ctx = new ContextHandler();
-            ctx.setContextPath(service.mapping());
-            ctx.setHandler((Handler)c.newInstance());
-            handlers.add(ctx);
-        }
-        return handlers.toArray(new Handler[0]);
     }
 
     public int addToRoot(final Node node) throws Exception {

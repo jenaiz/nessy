@@ -1,33 +1,35 @@
 package com.jenaiz.services;
 
-import org.alblang.annotations.Service;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
+import org.alblang.models.Status;
 import org.alblang.server.Topology;
 import org.apache.log4j.Logger;
-import org.eclipse.jetty.server.Request;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import java.io.IOException;
 import java.util.Date;
 
 /**
  * @author jesus.navarrete (14/02/14)
  */
-@Service(mapping = "/status")
-public class StatusHandler extends AbstractKernelHandler {
+@Path("/status")
+public class StatusHandler {
 
     private Logger logger = Logger.getLogger(StatusHandler.class.getName());
 
-    @Override
-    public void h(String target,Request baseRequest,HttpServletRequest request,HttpServletResponse response)
+    public StatusHandler() {
+    }
+
+    @GET
+    @Produces("application/json")
+    public Status status()
             throws IOException, ServletException {
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        baseRequest.setHandled(true);
         String v = null;
         try {
             v = ApplicationProperties.getInstance().getValue("server.version");
@@ -35,29 +37,28 @@ public class StatusHandler extends AbstractKernelHandler {
             logger.error("reading version from app properties", e);
         }
 
-        String rol = appProperties.getValue("rol");
+        String rol = "root"; //appProperties.getValue("rol");
 
-        response.getWriter().println("Server version : " + v);
-        response.getWriter().println("Server Rol : " + rol);
-        response.getWriter().println("Status : running");
-        response.getWriter().println();
-        response.getWriter().println(new Date());
-        Topology topo = Topology.getInstance();
+        final Status status = new Status();
 
-        response.getWriter().println("\nAvailable nodes:");
+        status.setVersion(v);
+        status.setRol(rol);
+        status.setUpdatedAt(new Date());
 
-        printNodeInfo(response, topo);
+        final Topology topo = Topology.getInstance();
+
+        printNodeInfo(status, topo);
+
+        return status;
     }
 
-    private void printNodeInfo(HttpServletResponse response, Topology topo) throws IOException {
-        for (Node n : topo.availableNodes()) {
-            response.getWriter().println(n.url());
+    private void printNodeInfo(Status sb, Topology topology) throws IOException {
+        for (Node n : topology.availableNodes()) {
+            sb.getAvailables().add(n.url());
         }
 
-        response.getWriter().println("\nAll nodes:");
-
-        for (Node n : topo.getNodes()) {
-            response.getWriter().println(n.url());
+        for (Node n : topology.getNodes()) {
+            sb.getNodes().add(n.url());
         }
     }
 }
