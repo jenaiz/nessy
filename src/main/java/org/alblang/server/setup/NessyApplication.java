@@ -14,9 +14,7 @@ public class NessyApplication extends Application {
 		final Set<Class<?>> classes = new HashSet<>();
 
         classes.add(RootHandler.class);
-        //classes.add(HomeHandler.class);
         classes.add(StatusHandler.class);
-        //classes.add(FirstResource.class);
 
         return classes;
 	}
