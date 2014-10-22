@@ -47,6 +47,7 @@ public class Kernel {
         final Kernel k = new Kernel();
 
         k.start("", node);
+        // TODO remove if it works in different computers and packaged 
         // k.start("/Users/jenaiz/projects/nessy", node);
 
     }
