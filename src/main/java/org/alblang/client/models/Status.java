@@ -1,4 +1,4 @@
-package org.alblang.models;
+package org.alblang.client.models;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -3,7 +3,7 @@ package com.jenaiz.services;
 import org.alblang.config.ApplicationProperties;
 import org.alblang.exceptions.ServerException;
 import org.alblang.models.Node;
-import org.alblang.models.Status;
+import org.alblang.client.models.Status;
 import org.alblang.server.Topology;
 import org.apache.log4j.Logger;
 
