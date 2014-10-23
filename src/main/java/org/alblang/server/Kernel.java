@@ -86,8 +86,8 @@ public class Kernel {
                         --retries;
                     }
                 }
-                final Thread rootchecker = new Thread(new MasterConnectionRunnable(node));
-                rootchecker.start();
+                final Thread rootChecker = new Thread(new MasterConnectionRunnable(node));
+                rootChecker.start();
             } else if (Roles.root.name().equals(rol)) {
                 final Thread topology = new Thread(new TopologyRunnable());
                 topology.start();

@@ -39,7 +39,7 @@ public class Topology {
 
         for (Node node: nodes) {
             try {
-                getRequest(node, "/status/");
+                getRequest(node, "/status");
                 logger.info(node.url() + " - available");
             } catch (Exception e) {
                 logger.error(node.url() + " - not available [" + e.getMessage() + "]");
