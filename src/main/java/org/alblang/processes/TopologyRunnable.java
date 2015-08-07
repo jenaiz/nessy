@@ -76,7 +76,7 @@ public class TopologyRunnable implements Runnable {
         }
     }
 
-    private void persistNodes(Topology t) {
+    private void persistNodes(final Topology t) {
         final List<Node> nodes = t.getNodes();
         try {
             final String output = toString(nodes);
@@ -118,7 +118,7 @@ public class TopologyRunnable implements Runnable {
         return sw.toString();
     }
 
-    private String readLargerTextFile(String aFileName) throws IOException {
+    private String readLargerTextFile(final String aFileName) throws IOException {
         final Path path = Paths.get(aFileName);
         final StringBuilder sb = new StringBuilder();
         try (Scanner scanner =  new Scanner(path, ENCODING.name())){
