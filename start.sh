@@ -7,6 +7,17 @@ for i in ./lib/*.jar ; do
   CLASSPATH=$CLASSPATH:$i
 done
 
+node=$1
+
+if [ -z "$node" ]; then
+  node="root"
+fi
+
 CLASSPATH=$CLASSPATH:target/classes/
 
-java $JAVA_OPTS_NESSY -cp $CLASSPATH org.alblang.server.Kernel
+nohup java $JAVA_OPTS_NESSY -cp $CLASSPATH org.alblang.server.Kernel $node.json > logs/$node.log 2>&1 &
+pid=$!
+echo $pid >> pids/$node.pid
+
+echo "$node is running with pid $pid"
+#tail -f logs/$node.log
