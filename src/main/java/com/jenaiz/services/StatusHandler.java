@@ -22,9 +22,6 @@ public class StatusHandler {
 
     private Logger logger = Logger.getLogger(StatusHandler.class.getName());
 
-    public StatusHandler() {
-    }
-
     @GET
     @Produces("application/json")
     public Status status()
