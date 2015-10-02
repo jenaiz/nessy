@@ -3,7 +3,7 @@ package org.alblang.nessy.processes;
 import org.alblang.nessy.config.ApplicationProperties;
 import org.alblang.nessy.exceptions.ServerException;
 import org.alblang.nessy.models.Node;
-import org.alblang.nessy.utils.NodeUtils;
+import org.alblang.nessy.utils.NodeMapper;
 import org.apache.log4j.Logger;
 
 import java.io.OutputStream;
@@ -53,7 +53,7 @@ public class MasterConnectionRunnable implements Runnable {
         con.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
         final OutputStream os = con.getOutputStream();
-        os.write(NodeUtils.toJson(node).getBytes("UTF-8"));
+        os.write(NodeMapper.toJson(node).getBytes("UTF-8"));
         os.close();
 
         return con.getResponseCode();

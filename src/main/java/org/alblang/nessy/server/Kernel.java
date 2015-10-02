@@ -5,7 +5,7 @@ import org.alblang.nessy.exceptions.ServerException;
 import org.alblang.nessy.models.Node;
 import org.alblang.nessy.processes.MasterConnectionRunnable;
 import org.alblang.nessy.processes.TopologyRunnable;
-import org.alblang.nessy.utils.NodeUtils;
+import org.alblang.nessy.utils.NodeMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
@@ -39,7 +39,7 @@ public class Kernel {
 
             final Scanner s = new Scanner(stream).useDelimiter("\\A");
             final String text = s.hasNext() ? s.next() : "";
-            node = NodeUtils.toJava(text);
+            node = NodeMapper.toNode(text);
         } else {
             node = new Node("127.0.0.1", 9090);
         }
@@ -110,7 +110,7 @@ public class Kernel {
         con.setRequestProperty("Content-Type", "application/json; charset=utf8");
 
         final OutputStream os = con.getOutputStream();
-        os.write(NodeUtils.toJson(node).getBytes("UTF-8"));
+        os.write(NodeMapper.toJson(node).getBytes("UTF-8"));
         os.close();
 
         final int code = con.getResponseCode();

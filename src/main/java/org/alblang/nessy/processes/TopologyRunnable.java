@@ -4,12 +4,13 @@ import org.alblang.nessy.config.ApplicationProperties;
 import org.alblang.nessy.exceptions.ServerException;
 import org.alblang.nessy.models.Node;
 import org.alblang.nessy.server.Topology;
+import org.alblang.nessy.utils.NodeMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -50,7 +51,7 @@ public class TopologyRunnable implements Runnable {
         try {
             final String previousInfo = readLargerTextFile(fileName);
             if (StringUtils.isNotEmpty(previousInfo)) {
-                final List<Node> previousNodes = fromString(previousInfo);
+                final List<Node> previousNodes = NodeMapper.fromString(previousInfo);
 
                 for (Node node : previousNodes) {
                     t.addNode(node);
@@ -79,7 +80,7 @@ public class TopologyRunnable implements Runnable {
     private void persistNodes(final Topology t) {
         final List<Node> nodes = t.getNodes();
         try {
-            final String output = toString(nodes);
+            final String output = NodeMapper.toString(nodes);
 
             final String fileName = applicationProperties.getValue("temp.folder") + OUTPUT_FILE;
 
@@ -88,34 +89,6 @@ public class TopologyRunnable implements Runnable {
         } catch (IOException e) {
             logger.error("error saving the application.properties file", e);
         }
-    }
-
-
-    public String toString(final List<Node> nodes) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final StringWriter sw = new StringWriter();
-        final PrintWriter p = new PrintWriter(sw);
-
-        mapper.writeValue(p, nodes);
-
-        return sw.toString();
-    }
-
-    public List<Node> fromString(final String input) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final TypeFactory factory = mapper.getTypeFactory();
-        return mapper.readValue(input, factory.constructCollectionType(List.class, Node.class));
-    }
-
-
-    public static String toJson(final Node node) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final StringWriter sw = new StringWriter();
-        final PrintWriter p = new PrintWriter(sw);
-
-        mapper.writeValue(p, node);
-
-        return sw.toString();
     }
 
     private String readLargerTextFile(final String aFileName) throws IOException {

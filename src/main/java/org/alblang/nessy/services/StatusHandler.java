@@ -24,8 +24,7 @@ public class StatusHandler {
 
     @GET
     @Produces("application/json")
-    public Status status()
-            throws IOException, ServletException {
+    public Status status() throws IOException, ServletException {
 
         String v = null;
         try {
@@ -43,18 +42,17 @@ public class StatusHandler {
         status.setUpdatedAt(new Date());
 
         final Topology topo = Topology.getInstance();
-
         printNodeInfo(status, topo);
 
         return status;
     }
 
-    private void printNodeInfo(Status sb, Topology topology) throws IOException {
-        for (Node n : topology.availableNodes()) {
+    private void printNodeInfo(final Status sb, final Topology topology) throws IOException {
+        for (final Node n : topology.availableNodes()) {
             sb.getAvailables().add(n.url());
         }
 
-        for (Node n : topology.getNodes()) {
+        for (final Node n : topology.getNodes()) {
             sb.getNodes().add(n.url());
         }
     }
