@@ -4,6 +4,7 @@ import org.alblang.nessy.config.ApplicationProperties;
 import org.alblang.nessy.exceptions.ServerException;
 import org.alblang.nessy.models.Node;
 import org.alblang.nessy.server.Topology;
+import org.alblang.nessy.utils.FileUtils;
 import org.alblang.nessy.utils.NodeMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -49,7 +50,7 @@ public class TopologyRunnable implements Runnable {
         final Topology t = Topology.getInstance();
 
         try {
-            final String previousInfo = readLargerTextFile(fileName);
+            final String previousInfo = FileUtils.readLargerTextFile(fileName, ENCODING);
             if (StringUtils.isNotEmpty(previousInfo)) {
                 final List<Node> previousNodes = NodeMapper.fromString(previousInfo);
 
@@ -84,32 +85,12 @@ public class TopologyRunnable implements Runnable {
 
             final String fileName = applicationProperties.getValue("temp.folder") + OUTPUT_FILE;
 
-            writeLargerTextFile(fileName, output);
+            FileUtils.writeLargerTextFile(fileName, output, ENCODING);
 
         } catch (IOException e) {
             logger.error("error saving the application.properties file", e);
         }
     }
 
-    private String readLargerTextFile(final String aFileName) throws IOException {
-        final File f = new File(aFileName);
-        if (f.exists()) {
-            final Path path = Paths.get(aFileName);
-            final StringBuilder sb = new StringBuilder();
-            try (Scanner scanner =  new Scanner(path, ENCODING.name())){
-                while (scanner.hasNextLine()){
-                    sb.append(scanner.nextLine());
-                }
-            }
-            return sb.toString();
-        }
-        return "";
-    }
 
-    private void writeLargerTextFile(final String fileName, final String content) throws IOException {
-        Path path = Paths.get(fileName);
-        try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
-            writer.write(content);
-        }
-    }
 }
