@@ -37,7 +37,7 @@ public class MasterConnectionRunnable implements Runnable {
             }
             try {
                 Thread.sleep(TEN_SECONDS);
-            } catch (InterruptedException ie) {}
+            } catch (InterruptedException ie) { /*not important*/ }
         }
     }
 
@@ -56,9 +56,6 @@ public class MasterConnectionRunnable implements Runnable {
         os.write(NodeUtils.toJson(node).getBytes("UTF-8"));
         os.close();
 
-        final int code = con.getResponseCode();
-
-        return code;
-
+        return con.getResponseCode();
     }
 }

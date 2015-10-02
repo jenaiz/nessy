@@ -17,9 +17,6 @@ public class RootHandler {
 
     private Logger logger = Logger.getLogger(RootHandler.class.getName());
 
-    public RootHandler() {
-    }
-
     @POST
     @Consumes("application/json")
     public Response createProduct(Node node) {
