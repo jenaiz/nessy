@@ -64,7 +64,7 @@ public class Kernel {
 
             final String descriptor = this.getClass().getResource(WEB_XML).toString();
             logger.info("reading web.xml from " + descriptor);
-            
+
             context.setDescriptor(descriptor);
             context.setResourceBase(this.getClass().getResource(PATH).getPath());
 
