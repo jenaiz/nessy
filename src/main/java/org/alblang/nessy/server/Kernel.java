@@ -118,10 +118,7 @@ public class Kernel {
         os.write(NodeMapper.toJson(node).getBytes("UTF-8"));
         os.close();
 
-        final int code = con.getResponseCode();
-
-        return code;
-
+        return con.getResponseCode();
     }
 
 }
