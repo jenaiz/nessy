@@ -4,3 +4,4 @@ target/*
 *.iml
 lib/*
 logs/*
+nessy.iml
