@@ -1,6 +1,6 @@
-package org.alblang.config;
+package org.alblang.nessy.config;
 
-import org.alblang.exceptions.ServerException;
+import org.alblang.nessy.exceptions.ServerException;
 
 import java.io.InputStream;
 import java.util.Properties;

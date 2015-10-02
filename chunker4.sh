@@ -9,4 +9,4 @@ done
 
 CLASSPATH=$CLASSPATH:target/classes/
 
-java $JAVA_OPTS_NESSY -cp $CLASSPATH org.alblang.server.Kernel chunker4.json
+java $JAVA_OPTS_NESSY -cp $CLASSPATH org.alblang.nessy.server.Kernel chunker4.json

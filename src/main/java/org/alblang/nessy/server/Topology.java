@@ -1,6 +1,6 @@
-package org.alblang.server;
+package org.alblang.nessy.server;
 
-import org.alblang.models.Node;
+import org.alblang.nessy.models.Node;
 import org.apache.log4j.Logger;
 
 import java.net.HttpURLConnection;

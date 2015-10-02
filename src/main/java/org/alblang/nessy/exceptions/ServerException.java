@@ -1,4 +1,4 @@
-package org.alblang.exceptions;
+package org.alblang.nessy.exceptions;
 
 /**
  * @author jesus.navarrete  (29/08/14)

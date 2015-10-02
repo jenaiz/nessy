@@ -1,7 +1,7 @@
-package org.alblang.server.setup;
+package org.alblang.nessy.server.setup;
 
-import com.jenaiz.services.RootHandler;
-import com.jenaiz.services.StatusHandler;
+import org.alblang.nessy.services.RootHandler;
+import org.alblang.nessy.services.StatusHandler;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

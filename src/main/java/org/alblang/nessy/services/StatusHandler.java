@@ -1,10 +1,10 @@
-package com.jenaiz.services;
+package org.alblang.nessy.services;
 
-import org.alblang.config.ApplicationProperties;
-import org.alblang.exceptions.ServerException;
-import org.alblang.models.Node;
-import org.alblang.client.models.Status;
-import org.alblang.server.Topology;
+import org.alblang.nessy.config.ApplicationProperties;
+import org.alblang.nessy.exceptions.ServerException;
+import org.alblang.nessy.models.Node;
+import org.alblang.nessy.client.models.Status;
+import org.alblang.nessy.server.Topology;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;

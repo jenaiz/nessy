@@ -1,11 +1,11 @@
-package org.alblang.server;
+package org.alblang.nessy.server;
 
-import org.alblang.config.ApplicationProperties;
-import org.alblang.exceptions.ServerException;
-import org.alblang.models.Node;
-import org.alblang.processes.MasterConnectionRunnable;
-import org.alblang.processes.TopologyRunnable;
-import org.alblang.utils.NodeUtils;
+import org.alblang.nessy.config.ApplicationProperties;
+import org.alblang.nessy.exceptions.ServerException;
+import org.alblang.nessy.models.Node;
+import org.alblang.nessy.processes.MasterConnectionRunnable;
+import org.alblang.nessy.processes.TopologyRunnable;
+import org.alblang.nessy.utils.NodeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
@@ -59,11 +59,9 @@ public class Kernel {
 
             final WebAppContext context = new WebAppContext();
 
-            //context.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
-            //context.setResourceBase(path);
-            String rootPath = Kernel.class.getClassLoader().getResource(".").toString();
-            context.setDescriptor(rootPath + "../../src/main/webapp/WEB-INF/web.xml");
-            context.setResourceBase(rootPath);
+            context.setDescriptor(this.getClass().getResource("../../../../WEB-INF/web.xml").toString());
+            logger.info("reading web.xml from " + this.getClass().getResource("../../../../WEB-INF/web.xml").toString());
+            context.setResourceBase(this.getClass().getResource("../../../../").getPath());
 
             context.setContextPath("/");
             context.setParentLoaderPriority(true);

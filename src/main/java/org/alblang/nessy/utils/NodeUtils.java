@@ -1,6 +1,6 @@
-package org.alblang.utils;
+package org.alblang.nessy.utils;
 
-import org.alblang.models.Node;
+import org.alblang.nessy.models.Node;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;

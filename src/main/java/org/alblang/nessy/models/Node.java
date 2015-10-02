@@ -1,4 +1,4 @@
-package org.alblang.models;
+package org.alblang.nessy.models;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 

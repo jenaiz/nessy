@@ -1,4 +1,4 @@
-package org.alblang.server.setup;
+package org.alblang.nessy.server.setup;
 
 import org.restlet.Context;
 import org.restlet.ext.jaxrs.JaxRsApplication;

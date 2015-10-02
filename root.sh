@@ -9,4 +9,4 @@ done
 
 CLASSPATH=$CLASSPATH:target/classes/:../../resources
 
-java $JAVA_OPTS_NESSY -classpath $CLASSPATH org.alblang.server.Kernel root.json
+java $JAVA_OPTS_NESSY -classpath $CLASSPATH org.alblang.nessy.server.Kernel root.json -Dlog4j.configuration=file:src/resources/log4j.properties

@@ -1,4 +1,4 @@
-package org.alblang.client.models;
+package org.alblang.nessy.client.models;
 
 import java.util.ArrayList;
 import java.util.Date;

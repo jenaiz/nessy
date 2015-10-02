@@ -11,7 +11,7 @@
         <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
         <init-param>
             <param-name>org.restlet.application</param-name>
-            <param-value>org.alblang.server.setup.MyJaxRsApplication</param-value>
+            <param-value>org.alblang.nessy.server.setup.MyJaxRsApplication</param-value>
         </init-param>
     </servlet>
 

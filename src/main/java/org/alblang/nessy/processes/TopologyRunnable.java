@@ -1,17 +1,15 @@
-package org.alblang.processes;
+package org.alblang.nessy.processes;
 
-import org.alblang.config.ApplicationProperties;
-import org.alblang.exceptions.ServerException;
-import org.alblang.models.Node;
-import org.alblang.server.Topology;
+import org.alblang.nessy.config.ApplicationProperties;
+import org.alblang.nessy.exceptions.ServerException;
+import org.alblang.nessy.models.Node;
+import org.alblang.nessy.server.Topology;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.TypeFactory;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -51,10 +49,12 @@ public class TopologyRunnable implements Runnable {
 
         try {
             final String previousInfo = readLargerTextFile(fileName);
-            final List<Node> previousNodes = fromString(previousInfo);
+            if (StringUtils.isNotEmpty(previousInfo)) {
+                final List<Node> previousNodes = fromString(previousInfo);
 
-            for (Node node : previousNodes) {
-                t.addNode(node);
+                for (Node node : previousNodes) {
+                    t.addNode(node);
+                }
             }
 
         } catch (IOException e) {
@@ -119,14 +119,18 @@ public class TopologyRunnable implements Runnable {
     }
 
     private String readLargerTextFile(String aFileName) throws IOException {
-        final Path path = Paths.get(aFileName);
-        final StringBuilder sb = new StringBuilder();
-        try (Scanner scanner =  new Scanner(path, ENCODING.name())){
-            while (scanner.hasNextLine()){
-                sb.append(scanner.nextLine());
+        final File f = new File(aFileName);
+        if (f.exists()) {
+            final Path path = Paths.get(aFileName);
+            final StringBuilder sb = new StringBuilder();
+            try (Scanner scanner =  new Scanner(path, ENCODING.name())){
+                while (scanner.hasNextLine()){
+                    sb.append(scanner.nextLine());
+                }
             }
+            return sb.toString();
         }
-        return sb.toString();
+        return "";
     }
 
     private void writeLargerTextFile(final String fileName, final String content) throws IOException {
