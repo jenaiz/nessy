@@ -9,16 +9,10 @@ import org.alblang.nessy.utils.NodeMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author jesus.navarrete  (24/09/14)
@@ -50,7 +44,7 @@ public class TopologyRunnable implements Runnable {
         final Topology t = Topology.getInstance();
 
         try {
-            final String previousInfo = FileUtils.readLargerTextFile(fileName, ENCODING);
+            final String previousInfo = FileUtils.read(fileName, ENCODING);
             if (StringUtils.isNotEmpty(previousInfo)) {
                 final List<Node> previousNodes = NodeMapper.fromString(previousInfo);
 
@@ -85,7 +79,7 @@ public class TopologyRunnable implements Runnable {
 
             final String fileName = applicationProperties.getValue("temp.folder") + OUTPUT_FILE;
 
-            FileUtils.writeLargerTextFile(fileName, output, ENCODING);
+            FileUtils.write(fileName, output, ENCODING);
 
         } catch (IOException e) {
             logger.error("error saving the application.properties file", e);

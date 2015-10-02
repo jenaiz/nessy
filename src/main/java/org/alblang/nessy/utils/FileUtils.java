@@ -14,7 +14,7 @@ import java.util.Scanner;
  */
 public class FileUtils {
 
-    public static String readLargerTextFile(final String aFileName, final Charset ENCODING) throws IOException {
+    public static String read(final String aFileName, final Charset ENCODING) throws IOException {
         final File f = new File(aFileName);
         if (f.exists()) {
             final Path path = Paths.get(aFileName);
@@ -29,7 +29,7 @@ public class FileUtils {
         return "";
     }
 
-    public static void writeLargerTextFile(final String fileName, final String content, final Charset ENCODING) throws
+    public static void write(final String fileName, final String content, final Charset ENCODING) throws
             IOException {
         final Path path = Paths.get(fileName);
         try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
