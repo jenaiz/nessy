@@ -10,25 +10,32 @@ How to run the nodes:
 There is a  script to start nodes, you only need to say with json file you want to use. For example if you want to run
 the root node, you only need to do:
 
+´´
 ./start.sh root
+´´
 
 For the normal nodes, is the same:
 
+´´
 ./start.sh chunker1
 ...
 ./start.sh chunker5
+´´
 
 with that you will have a cluster of 5 chunkers with one root.
+
+Compilation
 ---
+
+After you download the project it is easy to buid it, you need maven and java installed in your machine. After that you
+should execute:
+
+´´
 mvn clean install
+´´
 
-to get the lib folder with the jars
-
-
-./start.sh ???
-./stop.sh ???
+to get the lib folder with the jars.
 
 
-./chunker?.sh -> run a worker...
 ---
 Copyright (c) 2014-2015 Jesús Navarrete jesus.navarrete@gmail.com, released under the GPLv2 license
