@@ -49,13 +49,10 @@ public class Kernel {
 
         final Kernel k = new Kernel();
 
-        k.start("", node);
-        // TODO remove if it works in different computers and packaged
-        // k.start("/Users/jenaiz/projects/nessy", node);
-
+        k.start(node);
     }
 
-    public void start(final String path, final Node node) throws ServerException {
+    public void start(final Node node) throws ServerException {
         try {
             int port = node.getPort() != 0 ? node.getPort() : Integer.valueOf(appProperties.getValue("port"));
             final Server server = new Server(port);
