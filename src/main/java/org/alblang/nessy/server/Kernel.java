@@ -28,6 +28,9 @@ public class Kernel {
 
     private ApplicationProperties appProperties;
 
+    private final static String PATH = "../../../../";
+    private final static String WEB_XML = PATH + "WEB-INF/web.xml";
+
     public Kernel() throws ServerException {
         appProperties = ApplicationProperties.getInstance();
     }
@@ -59,9 +62,11 @@ public class Kernel {
 
             final WebAppContext context = new WebAppContext();
 
-            context.setDescriptor(this.getClass().getResource("../../../../WEB-INF/web.xml").toString());
-            logger.info("reading web.xml from " + this.getClass().getResource("../../../../WEB-INF/web.xml").toString());
-            context.setResourceBase(this.getClass().getResource("../../../../").getPath());
+            final String descriptor = this.getClass().getResource(WEB_XML).toString();
+            logger.info("reading web.xml from " + descriptor);
+            
+            context.setDescriptor(descriptor);
+            context.setResourceBase(this.getClass().getResource(PATH).getPath());
 
             context.setContextPath("/");
             context.setParentLoaderPriority(true);
