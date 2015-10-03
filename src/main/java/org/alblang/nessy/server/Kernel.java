@@ -6,6 +6,7 @@ import org.alblang.nessy.models.Node;
 import org.alblang.nessy.processes.MasterConnectionRunnable;
 import org.alblang.nessy.processes.TopologyRunnable;
 import org.alblang.nessy.utils.NodeMapper;
+import org.alblang.nessy.utils.NodeOperations;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.server.Server;
@@ -77,9 +78,9 @@ public class Kernel {
 
             if (Roles.chunker.name().equals(rol)) {
                 int retries = 3;
-
+                final NodeOperations operation = new NodeOperations();
                 while (retries > 0) {
-                    int code = addToRoot(node);
+                    int code = operation.addToRoot(node);
                     if (code == HttpURLConnection.HTTP_OK) {
                         break;
                     } else {
@@ -98,24 +99,6 @@ public class Kernel {
         } catch (Exception e) {
             throw new ServerException("Error instantiating the server", e);
         }
-    }
-
-    public int addToRoot(final Node node) throws Exception {
-        final String url = appProperties.getValue("node.root") + "/root/";
-
-        final URL obj = new URL(url.trim());
-        final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setInstanceFollowRedirects(false);
-        con.setRequestMethod("POST");
-        con.setDoOutput(true);
-
-        con.setRequestProperty("Content-Type", "application/json; charset=utf8");
-
-        final OutputStream os = con.getOutputStream();
-        os.write(NodeMapper.toJson(node).getBytes("UTF-8"));
-        os.close();
-
-        return con.getResponseCode();
     }
 
 }

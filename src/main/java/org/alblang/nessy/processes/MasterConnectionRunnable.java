@@ -4,6 +4,7 @@ import org.alblang.nessy.config.ApplicationProperties;
 import org.alblang.nessy.exceptions.ServerException;
 import org.alblang.nessy.models.Node;
 import org.alblang.nessy.utils.NodeMapper;
+import org.alblang.nessy.utils.NodeOperations;
 import org.apache.log4j.Logger;
 
 import java.io.OutputStream;
@@ -30,33 +31,22 @@ public class MasterConnectionRunnable implements Runnable {
     }
     @Override
     public void run() {
-        while (true) {
-            try {
-                int code = addToRoot(node);
-            } catch (Exception e) {
-                logger.error("The connection with the root is giving problems: " + e.getMessage(), e);
+        try {
+            final NodeOperations operation = new NodeOperations();
+
+            while (true) {
+                try {
+                    operation.addToRoot(node);
+                } catch (Exception e) {
+                    logger.error("The connection with the root is giving problems: " + e.getMessage(), e);
+                }
+                try {
+                    Thread.sleep(TEN_SECONDS);
+                } catch (InterruptedException ie) { /*not important*/ }
             }
-            try {
-                Thread.sleep(TEN_SECONDS);
-            } catch (InterruptedException ie) { /*not important*/ }
+        } catch (ServerException e) {
+            e.printStackTrace();
         }
     }
 
-    public int addToRoot(final Node node) throws Exception {
-        final String url = appProperties.getValue("node.root") + "/root/";
-
-        final URL obj = new URL(url.trim());
-        final HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setInstanceFollowRedirects(false);
-        con.setRequestMethod("POST");
-        con.setDoOutput(true);
-
-        con.setRequestProperty("Content-Type", "application/json; charset=utf8");
-
-        final OutputStream os = con.getOutputStream();
-        os.write(NodeMapper.toJson(node).getBytes("UTF-8"));
-        os.close();
-
-        return con.getResponseCode();
-    }
 }
