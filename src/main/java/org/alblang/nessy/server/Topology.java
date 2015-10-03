@@ -14,8 +14,6 @@ import java.util.List;
  */
 public class Topology {
 
-    public static final int CHECKING_TIME = 2000;
-
     final private List<Node> nodes;
     final private List<Node> nodesAvailable;
 
@@ -24,8 +22,8 @@ public class Topology {
     private Logger logger = Logger.getLogger(Topology.class);
 
     private Topology() {
-        nodes = Collections.synchronizedList(new ArrayList<Node>());
-        nodesAvailable = Collections.synchronizedList(new ArrayList<Node>());;
+        nodes = Collections.synchronizedList(new ArrayList<>());
+        nodesAvailable = Collections.synchronizedList(new ArrayList<>());;
     }
 
     public static Topology getInstance() {

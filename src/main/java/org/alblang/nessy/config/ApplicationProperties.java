@@ -56,4 +56,9 @@ public class ApplicationProperties {
     public String getValue(final String property) {
         return properties.getProperty(property);
     }
+
+    public int getInt(final String property) {
+        return Integer.valueOf(properties.getProperty(property));
+    }
+
 }

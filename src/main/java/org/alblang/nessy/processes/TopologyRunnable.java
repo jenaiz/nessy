@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class TopologyRunnable implements Runnable {
 
-    private static final int TEN_SECONDS = 10000;
-    public static final int THIRTY_SECONDS = 30000;
+    private static int waitingTime;
+    private static int persistTime;
 
     private static final String OUTPUT_FILE = "nessy-nodes.json";
     private final static Charset ENCODING = StandardCharsets.UTF_8;
@@ -33,6 +33,8 @@ public class TopologyRunnable implements Runnable {
 
     public TopologyRunnable() throws ServerException {
         applicationProperties = ApplicationProperties.getInstance();
+        waitingTime = ApplicationProperties.getInstance().getInt("node.nodes.check.time");
+        persistTime = ApplicationProperties.getInstance().getInt("node.nodes.persist.time");
     }
 
     @Override
@@ -60,12 +62,12 @@ public class TopologyRunnable implements Runnable {
         while (true) {
             t.checkNodes();
 
-            if ((System.currentTimeMillis() - lastUpdate) > THIRTY_SECONDS) {
+            if ((System.currentTimeMillis() - lastUpdate) > persistTime) {
                 persistNodes(t);
             }
 
             try {
-                Thread.sleep(TEN_SECONDS);
+                Thread.sleep(waitingTime);
             } catch (InterruptedException e) {
                 logger.error("error waiting", e);
             }

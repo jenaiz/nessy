@@ -26,7 +26,7 @@ public class Kernel {
 
     private final static Logger logger = Logger.getLogger(Kernel.class);
 
-    private ApplicationProperties appProperties;
+    protected ApplicationProperties appProperties;
 
     private final static String PATH = "../../../../";
     private final static String WEB_XML = PATH + "WEB-INF/web.xml";
@@ -37,6 +37,8 @@ public class Kernel {
 
     public static void main(String[] args) throws ServerException, IOException, URISyntaxException {
         final Node node;
+        final Kernel kernel = new Kernel();
+
         if (args != null && args.length > 0) {
             final InputStream stream = Kernel.class.getClassLoader().getResourceAsStream(args[0]);
 
@@ -44,17 +46,15 @@ public class Kernel {
             final String text = s.hasNext() ? s.next() : "";
             node = NodeMapper.toNode(text);
         } else {
-            node = new Node("127.0.0.1", 9090);
+            node = new Node("127.0.0.1", kernel.appProperties.getInt("node.port"));
         }
 
-        final Kernel k = new Kernel();
-
-        k.start(node);
+        kernel.start(node);
     }
 
     public void start(final Node node) throws ServerException {
         try {
-            int port = node.getPort() != 0 ? node.getPort() : Integer.valueOf(appProperties.getValue("port"));
+            int port = node.getPort() != 0 ? node.getPort() : Integer.valueOf(appProperties.getValue("node.port"));
             final Server server = new Server(port);
 
             final WebAppContext context = new WebAppContext();

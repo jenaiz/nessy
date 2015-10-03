@@ -17,7 +17,7 @@ public class MasterConnectionRunnable implements Runnable {
 
     private final static Logger logger = Logger.getLogger(MasterConnectionRunnable.class);
 
-    private final int TEN_SECONDS = 10000;
+    private static int TEN_SECONDS;
 
     private ApplicationProperties appProperties;
 
@@ -25,6 +25,7 @@ public class MasterConnectionRunnable implements Runnable {
 
     public MasterConnectionRunnable(final Node node) throws ServerException {
         appProperties = ApplicationProperties.getInstance();
+        TEN_SECONDS = ApplicationProperties.getInstance().getInt("node.master.check.time");
         this.node = node;
     }
     @Override
