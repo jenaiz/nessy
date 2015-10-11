@@ -90,7 +90,7 @@ public class Kernel {
                 final Thread rootChecker = new Thread(new MasterConnectionRunnable(node));
                 rootChecker.start();
             } else if (Roles.root.name().equals(rol)) {
-                final Thread topology = new Thread(new TopologyRunnable());
+                final Thread topology = new Thread(new TopologyRunnable(node));
                 topology.start();
             }
 

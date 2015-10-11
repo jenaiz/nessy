@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class TopologyRunnable implements Runnable {
 
+    private Logger logger = Logger.getLogger(TopologyRunnable.class);
+
     private static int waitingTime;
     private static int persistTime;
 
@@ -27,14 +29,15 @@ public class TopologyRunnable implements Runnable {
 
     private static ApplicationProperties applicationProperties;
 
-    private Logger logger = Logger.getLogger(TopologyRunnable.class);
+    private Node me;
 
     private static long lastUpdate;
 
-    public TopologyRunnable() throws ServerException {
+    public TopologyRunnable(final Node node) throws ServerException {
         applicationProperties = ApplicationProperties.getInstance();
         waitingTime = ApplicationProperties.getInstance().getInt("node.nodes.check.time");
         persistTime = ApplicationProperties.getInstance().getInt("node.nodes.persist.time");
+        me = node;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class TopologyRunnable implements Runnable {
             if (StringUtils.isNotEmpty(previousInfo)) {
                 final List<Node> previousNodes = NodeMapper.fromString(previousInfo);
 
-                for (Node node : previousNodes) {
+                for (final Node node : previousNodes) {
                     t.addNode(node);
                 }
             }
