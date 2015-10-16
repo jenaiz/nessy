@@ -3,13 +3,8 @@ package org.alblang.nessy.processes;
 import org.alblang.nessy.config.ApplicationProperties;
 import org.alblang.nessy.exceptions.ServerException;
 import org.alblang.nessy.models.Node;
-import org.alblang.nessy.utils.NodeMapper;
 import org.alblang.nessy.utils.NodeOperations;
 import org.apache.log4j.Logger;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * @author jesus.navarrete  (24/09/14)
@@ -20,12 +15,9 @@ public class MasterConnectionRunnable implements Runnable {
 
     private static int TEN_SECONDS;
 
-    private ApplicationProperties appProperties;
-
     private Node node;
 
     public MasterConnectionRunnable(final Node node) throws ServerException {
-        appProperties = ApplicationProperties.getInstance();
         TEN_SECONDS = ApplicationProperties.getInstance().getInt("node.master.check.time");
         this.node = node;
     }
